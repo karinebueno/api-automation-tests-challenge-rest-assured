@@ -11,7 +11,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.*;
 
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
 import static io.restassured.config.LogConfig.logConfig;
 import static io.restassured.module.jsv.JsonSchemaValidator.*;
 import static org.hamcrest.Matchers.*;
@@ -67,7 +67,7 @@ public class BookingTests {
     public void  getAllBookingsByUserFirstName_BookingExists_returnOk(){
                     request
                         .when()
-                            .queryParam("firstName", "Carol")
+                            .queryParam("firstName", "Karine")
                             .get("/booking")
                         .then()
                             .assertThat()
@@ -86,6 +86,7 @@ public class BookingTests {
                     .contentType(ContentType.JSON)
                         .when()
                         .body(booking)
+                        .queryParam("firstName", "Karine")
                         .post("/booking")
                         .then()
                         .body(matchesJsonSchemaInClasspath("createBookingRequestSchema.json"))
@@ -96,6 +97,43 @@ public class BookingTests {
 
 
 
+    }
+
+
+
+    @Test
+    public void  updateInformationFromExistingBooking(){
+
+        RestAssured.given().baseUri("https://restful-booker.herokuapp.com/booking")
+                .basePath("3")
+                .contentType(ContentType.JSON)
+                .accept("application/json")
+                .auth().preemptive().basic("admin", "password123")
+                .body(booking)
+                .when().put()
+                .then().statusCode(200);
+
+    }
+    @Test
+    public void updatePartiallyInformationFromExistingBooking() {
+        RestAssured.given().baseUri("https://restful-booker.herokuapp.com/booking")
+                .basePath("3")
+                .contentType(ContentType.JSON)
+                .accept("application/json")
+                .auth().preemptive().basic("admin", "password123")
+                .body(booking)
+                .when().patch()
+                .then().statusCode(200);
+    }
+
+    @Test
+    public void deleteInformationFromExistingBooking() {
+        RestAssured.given().baseUri("https://restful-booker.herokuapp.com/booking")
+                .basePath("/1")
+                .contentType(ContentType.JSON)
+                .cookie("token", "a5729e81d56afe8")
+                .when().delete()
+                .then().statusCode(201).log().all();
     }
 
 }

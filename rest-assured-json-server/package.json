@@ -1,0 +1,22 @@
+{
+  "name": "rest-assured-json-server",
+  "version": "1.0.0",
+  "description": "json Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karinebueno/JsonServer.git"
+  },
+  "keywords": [
+    "1234567"
+  ],
+  "author": "Karine",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karinebueno/JsonServer/issues"
+  },
+  "homepage": "https://github.com/karinebueno/JsonServer#readme"
+}
